@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-AJioszXJxmdpcZR4zGec5z9caSmzz3Li5qJt+k2iopU='; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-OQ1Kgsofv1xgVBF7k4ngFspXVd6MlrzXQi7BAawS8Pc='; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1824,7 +1824,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     { id: 'ref', ic: '💪', n: 'Remontada', d: 'Superar un refuerzo' },
     { id: 'jefe', ic: '👾', n: 'Cazajefes', d: 'Vencer a Lord Negativo' },
     { id: 'ex1', ic: '🧭', n: 'Exploradora', d: 'Terminar una expedición' },
-    { id: 'ex7', ic: '🗺️', n: 'Gran explorador', d: 'Llegar a la sala 7 de una expedición' },
+    { id: 'ex7', ic: '🗺️', n: 'Gran explorador', d: 'Llegar al 70 % del camino de una expedición' },
     { id: 'exw', ic: '⚔️', n: 'Vencedor', d: 'Ganar una expedición (vencer al jefe)' },
     { id: 'exin', ic: '💎', n: 'Sin un rasguño', d: 'Ganar sin perder ningún corazón' },
     { id: 'exo', ic: '💰', n: 'Cofre lleno', d: '30 monedas en una expedición' }
@@ -2130,7 +2130,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
       filas.forEach(function (f) {
         // cada campo numérico debe ser un número finito y acotado (el texto importado nunca llega al panel como HTML)
         var numOk = Array.isArray(f) && f.length >= 16 && f.length <= 18 && (f[16] === undefined || typeof f[16] === 'string') && (f[17] === undefined || typeof f[17] === 'string') && f.slice(0, 16).every(function (x, i) { return i === 1 || (typeof x === 'number' && isFinite(x) && Math.abs(x) <= 1e13); });
-        if (!numOk || !(f[0] >= 1 && f[0] <= LISTA_MAX) || f[0] !== Math.floor(f[0]) || !((f[1] === 'RP' && f[12] >= 1 && f[12] <= 5 && f[12] === Math.floor(f[12])) || (f[1] === 'JF' && f[12] === 0) || (f[1] === 'EX' && f[12] >= 0 && f[12] <= 5 && f[12] === Math.floor(f[12]) && f[3] >= 0 && f[3] <= 5000 && f[3] === Math.floor(f[3]) && f[14] >= 1 && f[14] <= 10 && f[14] === Math.floor(f[14]) && (f[15] === 0 || f[15] === 1))) || f[4] < 0 || f[5] < 0 || f[6] < 0 || f[4] + f[5] + f[6] > 100000 || f[2] < 0 || f[2] > 4102444800000) { r.invalidas++; return; }
+        if (!numOk || !(f[0] >= 1 && f[0] <= LISTA_MAX) || f[0] !== Math.floor(f[0]) || !((f[1] === 'RP' && f[12] >= 1 && f[12] <= 5 && f[12] === Math.floor(f[12])) || (f[1] === 'JF' && f[12] === 0) || (f[1] === 'EX' && f[12] >= 0 && f[12] <= 5 && f[12] === Math.floor(f[12]) && f[3] >= 0 && f[3] <= 5000 && f[3] === Math.floor(f[3]) && f[14] >= 1 && f[14] <= 20 && f[14] === Math.floor(f[14]) && (f[15] === 0 || f[15] === 1))) || f[4] < 0 || f[5] < 0 || f[6] < 0 || f[4] + f[5] + f[6] > 100000 || f[2] < 0 || f[2] > 4102444800000) { r.invalidas++; return; }
         var gr = grupoValido(f[16]) ? f[16] : '', k = gr + '|' + f[0] + '|' + f[1] + '|' + f[2];
         if (claves[k]) { r.duplicadas++; return; }
         claves[k] = true;
@@ -2451,11 +2451,11 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
 
   /* ===================================================================
    *  LA EXPEDICIÓN (modo principal de la versión 2)
-   *  10 salas seguidas · reliquias tras las salas 3 y 6 · jefe en la sala 10 (3 preguntas).
+   *  salas seguidas (10, 15 o 20) · reliquias tras las salas 3 y 6 · jefe en la sala 10 (3 preguntas).
    *  Usa el mismo generador de preguntas, el mismo alumno/curso/grupo, los temas visuales, las medallas,
    *  los códigos de resultado, las copias de seguridad y el panel del profesorado que el resto del juego.
    * =================================================================== */
-  var EX_SALAS = 10, EX_JEFE = 3, EX_VIDAS = 3;
+  var EX_JEFE = 3, EX_VIDAS = 3, EX_DUR = { 10: 'Corta', 15: 'Normal', 20: 'Larga' }, EX_COFRES = { 10: [3, 6], 15: [5, 10], 20: [5, 10, 15] };
   var EX_RELIQUIAS = {
     escudo:    { ic: '🛡️', n: 'Escudo', d: 'Absorbe el próximo fallo: no pierdes corazón.' },
     reintento: { ic: '🔁', n: 'Segundo intento', d: 'Si fallas, puedes probar otra vez la misma cuenta.' },
@@ -2478,6 +2478,9 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
   var exEl = function () { return document.getElementById('p-exp'); };
   var exEsc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
   var exV = function () { return EX_V[(UI.visId && EX_V[UI.visId]) ? UI.visId : 'pizarra']; };
+  var exIdx = function (i) { return i >= X.n ? 10 : Math.max(1, Math.ceil(i * 9 / (X.n - 1))); };          // sala real -> sala del vocabulario (1-10)
+  var exNombre = function (i) { var n = exV().salas[exIdx(i)]; if (i < X.n && i > 1 && exIdx(i) === exIdx(i - 1)) n += ' · II'; return n; };
+  var exCofre = function (i) { return EX_COFRES[X.n].indexOf(i) >= 0; };
   var exNeg = function (n) { return n < 0 ? M + (-n) : String(n); };
 
   // nivel de partida sugerido: el que el alumno ya tiene en el repaso por mundos (tema 0 = mezcla de los 5)
@@ -2490,20 +2493,20 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
   function exHistorial() {
     var ps = Almacen.partidas().filter(function (p) { return p.modo === 'EX' && (p.grupo || '') === grupoActual && p.lista === alumnoActual; });
     var r = { n: ps.length, vic: 0, mejor: 0, sala: 0 };
-    ps.forEach(function (p) { if (p.ganada) r.vic++; if (p.puntos > r.mejor) r.mejor = p.puntos; if ((p.sala || 0) > r.sala) r.sala = p.sala; });
+    ps.forEach(function (p) { if (p.ganada) r.vic++; if ((p.dur || 10) === (X && X.n) && p.puntos > r.mejor) r.mejor = p.puntos; if ((p.sala || 0) > r.sala) r.sala = p.sala; });
     return r;
   }
   function exCorazones() { var s = ''; for (var i = 0; i < X.vidasMax; i++) s += i < X.vidas ? '❤️' : '🖤'; return s; }
-  function exNivelSala(extra) { return clamp(X.base + Math.floor((X.sala - 1) / 3) + extra, 1, 10); }
+  function exNivelSala(extra) { return clamp(X.base + Math.floor((X.sala - 1) * 3 / (X.n - 1)) + extra, 1, 10); }
 
   function exAbrir() {
     var t = (X && X.tema !== undefined) ? X.tema : 0;
-    X = { fase: 'inicio', tema: t, base: exBaseAuto(t), auto: true };
+    X = { fase: 'inicio', tema: t, base: exBaseAuto(t), auto: true, n: (X && X.n) || 15 };
     exPintar(); UI.mostrar('p-exp');
   }
-  function exNueva(tema, base) {
+  function exNueva(tema, base, n) {
     clearTimeout(exTimer);
-    X = { fase: 'puertas', sala: 1, vidas: EX_VIDAS, vidasMax: EX_VIDAS, monedas: 0, reliquias: [], racha: 0, mejorRacha: 0, aciertos: 0, errores: 0, blancos: 0,
+    X = { fase: 'puertas', n: EX_DUR[n] ? n : ((X && X.n) || 15), sala: 1, vidas: EX_VIDAS, vidasMax: EX_VIDAS, monedas: 0, reliquias: [], racha: 0, mejorRacha: 0, aciertos: 0, errores: 0, blancos: 0,
       escudos: 0, reintentos: 0, pistas: 0, tema: tema, base: base, q: null, camino: '', buf: '', recientes: [], jefeRest: 0, ultimo: null, ganada: false,
       nivelMax: 0, inicio: Date.now(), tq: 0, sumT: 0, nResp: 0, abandonada: false, guardada: false, rec: null, nuevas: [] };
     exEntrar();
@@ -2517,18 +2520,18 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
   }
   // entra en la sala actual: las salas 1-9 plantean su pregunta directamente; la 10 muestra primero a Lord Negativo
   function exEntrar() {
-    if (X.sala === EX_SALAS) { X.camino = 'jefe'; X.fase = 'puertas'; exPintar(); return; }
+    if (X.sala === X.n) { X.camino = 'jefe'; X.fase = 'puertas'; exPintar(); return; }
     X.camino = 'sala'; X.fase = 'entrada'; Sonido.nivel(); exPintar();
     clearTimeout(exTimer); exTimer = setTimeout(exEmpezar, TEST ? 30 : 1700);
   }
   function exEmpezar() {                                       // termina la animación de entrada y plantea la pregunta de la sala
     if (!X || X.fase !== 'entrada') return;
     clearTimeout(exTimer); exPregunta(exNivelSala(0));
-    if (X.sala === 7) exMedalla('ex7');
+    if (X.sala === Math.ceil(0.7 * X.n)) exMedalla('ex7');
     Sonido.campana(); exPintar();
   }
   function exPuerta() {                                        // solo el combate final necesita un toque para empezar
-    if (!X || X.fase !== 'puertas' || X.sala !== EX_SALAS) return;
+    if (!X || X.fase !== 'puertas' || X.sala !== X.n) return;
     X.camino = 'jefe'; X.jefeRest = EX_JEFE; exPregunta(exNivelSala(3)); Sonido.campana(); exPintar();
   }
   function exMonedas() {
@@ -2569,7 +2572,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     clearTimeout(exTimer); UI.bloquear();
     if (X.vidas <= 0) { exFin(false); return; }
     if (X.camino === 'jefe') { X.jefeRest--; if (X.jefeRest > 0) { exPregunta(exNivelSala(3)); exPintar(); } else exFin(true); return; }
-    if (X.sala === 3 || X.sala === 6) { exOfrecer(); return; }
+    if (exCofre(X.sala)) { exOfrecer(); return; }
     X.sala++; exEntrar();
   }
   function exOfrecer() {
@@ -2596,7 +2599,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     var ahora = new Date(), tot = X.aciertos + X.errores + X.blancos;
     var rec = { grupo: grupoActual, lista: alumnoActual, modo: 'EX', tema: X.tema, fecha: fechaHora(ahora), ts: ahora.getTime(), puntos: X.monedas, aciertos: X.aciertos, errores: X.errores, blancos: X.blancos,
       precision: tot ? Math.round(100 * X.aciertos / tot) : 0, tiempo: Math.round((Date.now() - X.inicio) / 1000), tiempoMedio: X.nResp ? Math.round(10 * X.sumT / X.nResp) / 10 : 0,
-      nivel: X.base, nivelIni: X.base, maxNivel: X.nivelMax, mejorRacha: X.mejorRacha, refuerzos: 0, sala: Math.min(X.sala, EX_SALAS), ganada: !!ganada, vidas: X.vidas, dev: Almacen.idDisp() };
+      nivel: X.base, nivelIni: X.base, maxNivel: X.nivelMax, mejorRacha: X.mejorRacha, refuerzos: 0, sala: Math.min(X.sala, X.n), dur: X.n, ganada: !!ganada, vidas: X.vidas, dev: Almacen.idDisp() };
     rec.codigo = armarCodigo(rec, ahora);
     Almacen.anadir(rec); X.rec = rec;
   }
@@ -2619,51 +2622,52 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
       { cancel: function () { Modal.cerrar(); } });
   }
   function exRango() {
-    if (X.ganada && X.monedas >= 35) return ['👑', 'Maestro de la mazmorra'];
+    if (X.ganada && X.monedas >= 3.5 * X.n) return ['👑', 'Maestro de la mazmorra'];
     if (X.ganada) return ['🏆', 'Vencedor de Lord Negativo'];
-    if (X.sala >= 7) return ['🧭', 'Gran explorador'];
-    if (X.sala >= 4) return ['🗡️', 'Aventurero'];
+    if (X.sala >= Math.ceil(0.7 * X.n)) return ['🧭', 'Gran explorador'];
+    if (X.sala >= Math.ceil(0.4 * X.n)) return ['🗡️', 'Aventurero'];
     return ['🕯️', 'Aprendiz de explorador'];
   }
 
   /* ---------- pintado ---------- */
   function exCamino() {
-    var h = '<div class="ex-camino" role="img" aria-label="Sala ' + X.sala + ' de ' + EX_SALAS + '">';
-    for (var i = 1; i <= EX_SALAS; i++) {
-      var cl = i < X.sala ? 'hecha' : (i === X.sala ? 'actual' : ''), ic = i < X.sala ? '✔' : (i === EX_SALAS ? '👾' : ((i === 3 || i === 6) ? '🎁' : i));
-      h += '<span class="ex-nodo ' + cl + (i === EX_SALAS ? ' jefe' : '') + '">' + ic + '</span>';
+    var h = '<div class="ex-camino" role="img" aria-label="Sala ' + X.sala + ' de ' + X.n + '">';
+    for (var i = 1; i <= X.n; i++) {
+      var cl = i < X.sala ? 'hecha' : (i === X.sala ? 'actual' : ''), ic = i < X.sala ? '✔' : (i === X.n ? '👾' : (exCofre(i) ? '🎁' : i));
+      h += '<span class="ex-nodo ' + cl + (i === X.n ? ' jefe' : '') + '">' + ic + '</span>';
     }
     return h + '</div>';
   }
   function exHud() {
     var v = exV();
     return '<div class="ex-hud"><span class="ex-co" aria-label="' + X.vidas + ' corazones">' + exCorazones() + (X.escudos ? ' 🛡' + (X.escudos > 1 ? '×' + X.escudos : '') : '') + '</span>' +
-      '<span>🚪 Sala ' + Math.min(X.sala, EX_SALAS) + '/' + EX_SALAS + '</span><span>' + v.mo + ' ' + X.monedas + '</span>' +
+      '<span>🚪 Sala ' + Math.min(X.sala, X.n) + '/' + X.n + '</span><span>' + v.mo + ' ' + X.monedas + '</span>' +
       '<span class="ex-rel" aria-label="Reliquias">' + X.reliquias.map(function (k) { return '<span title="' + exEsc(EX_RELIQUIAS[k].n) + '">' + EX_RELIQUIAS[k].ic + '</span>'; }).join('') + '</span>' +
       '<button type="button" class="btn suave ex-aband" data-a="abandonar">🏳</button></div>' + exCamino();
   }
   function exPintar() {
     var p = exEl(); if (!p || !X) return;
     var v = exV(), h = '', nomT = ['Mezcla de los 5 mundos'].concat([1, 2, 3, 4, 5].map(function (i) { return MUNDOS[i]; }));
-    p.setAttribute('data-sala', X.sala && X.fase !== 'inicio' && X.fase !== 'fin' ? X.sala : '0');
+    p.setAttribute('data-sala', X.sala && X.n && X.fase !== 'inicio' && X.fase !== 'fin' ? exIdx(X.sala) : '0');
     if (X.faseVista !== X.fase) { X.faseVista = X.fase; UI.bloquear(); }
     if (X.fase === 'inicio') {
       var hi = exHistorial();
       h = '<div class="ex-cab"><div class="ex-ic" aria-hidden="true">' + (VIS.heroe || '🧭') + '</div><h1 class="titulo">La Expedición</h1>' +
-        '<p class="sub">10 salas seguidas, cada vez un poco más difíciles; dos cofres con reliquias por el camino y Lord Negativo al final. Cada acierto da monedas; cada fallo cuesta un corazón.</p></div>' +
+        '<p class="sub">Salas seguidas, cada vez un poco más difíciles; cofres con reliquias por el camino y Lord Negativo al final. Tú eliges cuánto dura. Cada acierto da monedas; cada fallo cuesta un corazón.</p></div>' +
         '<p class="ex-et"><b>¿Qué quieres practicar?</b></p><div class="ex-fila" role="group" aria-label="Tema">' + nomT.map(function (n, i) { return '<button type="button" class="opc' + (X.tema === i ? ' sel' : '') + '" data-a="tema" data-v="' + i + '" aria-pressed="' + (X.tema === i) + '">' + exEsc(i ? TEMA_ICONO[i] + ' ' + n : '🎲 ' + n) + '</button>'; }).join('') + '</div>' +
         '<p class="ex-et"><b>Tu nivel de partida:</b> <span class="ex-niv">' + X.base + '</span> <small>(' + (X.auto ? 'según tu nivel en los mundos' : 'elegido por ti') + ')</small></p>' +
         '<div class="ex-fila"><button type="button" class="btn suave" data-a="menos" aria-label="Bajar nivel de partida">− Más fácil</button><button type="button" class="btn suave" data-a="mas" aria-label="Subir nivel de partida">Más difícil +</button></div>' +
+        '<p class="ex-et"><b>Duración:</b></p><div class="ex-fila" role="group" aria-label="Duración">' + [10, 15, 20].map(function (d) { return '<button type="button" class="opc' + (X.n === d ? ' sel' : '') + '" data-a="dur" data-v="' + d + '" aria-pressed="' + (X.n === d) + '">' + EX_DUR[d] + ' · ' + d + ' salas</button>'; }).join('') + '</div>' +
         '<div class="ex-fila"><button type="button" class="btn verde ex-grande" data-a="entrar">⚔️ Entrar en la mazmorra</button></div>' +
         (hi.n ? '<p class="sub ex-et">Tus expediciones: <b>' + hi.n + '</b> · victorias <b>' + hi.vic + '</b> · mejor botín <b>' + v.mo + ' ' + hi.mejor + '</b> · sala más profunda <b>' + hi.sala + '</b></p>' : '') +
         '<div class="ex-fila"><button type="button" class="btn suave" data-a="mapa">← Volver al mapa</button></div>';
     } else if (X.fase === 'entrada') {
-      h = exHud() + '<div class="ex-entrada" data-a="saltar"><div class="ex-num">Sala ' + X.sala + '</div><div class="ex-escena" aria-hidden="true">' + EX_ESC[X.sala] + '</div><h2 class="ex-h2">' + exEsc(v.salas[X.sala]) + '</h2><p class="sub">Nivel ' + exNivelSala(0) + ' · ' + (X.sala <= 3 ? 'adelante' : (X.sala <= 6 ? 'cada vez más adentro' : 'cuidado, esto se complica')) + '</p></div>';
+      h = exHud() + '<div class="ex-entrada" data-a="saltar"><div class="ex-num">Sala ' + X.sala + '</div><div class="ex-escena" aria-hidden="true">' + EX_ESC[exIdx(X.sala)] + '</div><h2 class="ex-h2">' + exEsc(exNombre(X.sala)) + '</h2><p class="sub">Nivel ' + exNivelSala(0) + ' · ' + (X.sala <= 3 ? 'adelante' : (X.sala <= 6 ? 'cada vez más adentro' : 'cuidado, esto se complica')) + '</p></div>';
     } else if (X.fase === 'puertas') {
-      h = exHud() + '<div class="ex-jefe"><div class="ex-escena" aria-hidden="true">👾</div><h2 class="ex-h2">' + exEsc(v.salas[X.sala]) + '</h2><p class="sub">Lord Negativo te espera: 3 cuentas seguidas, cada fallo cuesta un corazón y cada acierto da +5 ' + v.mo + '.</p>' +
+      h = exHud() + '<div class="ex-jefe"><div class="ex-escena" aria-hidden="true">👾</div><h2 class="ex-h2">' + exEsc(exNombre(X.sala)) + '</h2><p class="sub">Lord Negativo te espera: 3 cuentas seguidas, cada fallo cuesta un corazón y cada acierto da +5 ' + v.mo + '.</p>' +
         '<div class="ex-fila"><button type="button" class="btn verde ex-grande" data-a="puerta" data-v="2">⚔️ Enfrentarte a Lord Negativo</button></div></div>';
     } else if (X.fase === 'pregunta' || X.fase === 'resuelta') {
-      var q = X.q, res = X.ultimo, et = X.camino === 'jefe' ? '👾 Jefe · pregunta ' + (EX_JEFE - X.jefeRest + 1) + ' de ' + EX_JEFE : '🚪 ' + v.salas[X.sala];
+      var q = X.q, res = X.ultimo, et = X.camino === 'jefe' ? '👾 Jefe · pregunta ' + (EX_JEFE - X.jefeRest + 1) + ' de ' + EX_JEFE : '🚪 ' + exNombre(X.sala);
       h = exHud() + '<div class="ex-tarjeta' + (res && res.ok === false && !res.reintento ? ' tiembla' : (res && res.ok ? ' brilla' : '')) + '"><span class="ex-tag">' + exEsc(et) + ' · nivel ' + q.nivelUsado + '</span><div class="ex-expr" aria-label="Operación">' + q.html + '</div>' +
         '<div class="ex-resp' + (X.buf ? '' : ' vacia') + '" id="ex-resp" aria-live="polite">' + (X.buf ? exEsc(X.buf.replace('-', M)) : '?') + '</div></div>';
       if (X.fase === 'pregunta') {
@@ -2684,7 +2688,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
         X.opciones.map(function (k, i) { var r = EX_RELIQUIAS[k]; return '<button type="button" class="ex-rel-c" data-a="reliquia" data-v="' + i + '"><span class="ic">' + r.ic + '</span><b>' + exEsc(r.n) + '</b><small>' + exEsc(r.d) + '</small></button>'; }).join('') + '</div>';
     } else if (X.fase === 'fin') {
       var rg = exRango(), hi2 = exHistorial();
-      h = '<div class="ex-cab"><div class="ex-ic" aria-hidden="true">' + rg[0] + '</div><h1 class="titulo">' + (X.ganada ? '¡Has vencido a Lord Negativo!' : (X.abandonada ? 'Expedición abandonada' : 'La expedición termina aquí')) + '</h1><p class="sub"><b>' + exEsc(rg[1]) + '</b>' + (X.ganada ? '' : ' · llegaste a la sala ' + Math.min(X.sala, EX_SALAS) + ' de ' + EX_SALAS) + '</p></div>' +
+      h = '<div class="ex-cab"><div class="ex-ic" aria-hidden="true">' + rg[0] + '</div><h1 class="titulo">' + (X.ganada ? '¡Has vencido a Lord Negativo!' : (X.abandonada ? 'Expedición abandonada' : 'La expedición termina aquí')) + '</h1><p class="sub"><b>' + exEsc(rg[1]) + '</b>' + (X.ganada ? '' : ' · llegaste a la sala ' + Math.min(X.sala, X.n) + ' de ' + X.n) + '</p></div>' +
         '<div class="ex-res"><div><b>' + v.mo + ' ' + X.monedas + '</b>botín' + (X.nuevoRecord ? ' · ¡récord!' : '') + '</div><div><b>' + X.aciertos + '/' + (X.aciertos + X.errores + X.blancos) + '</b>aciertos</div><div><b>🔥 ' + X.mejorRacha + '</b>mejor racha</div><div><b>' + (X.reliquias.length ? X.reliquias.map(function (k) { return EX_RELIQUIAS[k].ic; }).join(' ') : '—') + '</b>reliquias</div></div>' +
         (X.rec ? '<p class="sub ex-et">Código de resultado: <code class="ex-cod">' + exEsc(X.rec.codigo) + '</code></p>' : '<p class="sub ex-et">No has respondido ninguna pregunta: no se guarda nada.</p>') +
         '<div class="ex-fila"><button type="button" class="btn verde" data-a="otra">⚔️ Otra expedición</button><button type="button" class="btn suave" data-a="cambiar">Cambiar tema o nivel</button></div>' +
@@ -2711,7 +2715,8 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
       var a = b.getAttribute('data-a'), v = b.getAttribute('data-v'); Sonido.despertar();
       if (a === 'tema') { X.tema = parseInt(v, 10); X.base = exBaseAuto(X.tema); X.auto = true; exPintar(); }
       else if (a === 'menos' || a === 'mas') { X.base = clamp(X.base + (a === 'mas' ? 1 : -1), 1, 8); X.auto = false; exPintar(); }
-      else if (a === 'entrar' || a === 'otra') exNueva(X.tema, X.base);
+      else if (a === 'dur') { X.n = parseInt(v, 10); exPintar(); }
+      else if (a === 'entrar' || a === 'otra') exNueva(X.tema, X.base, X.n);
       else if (a === 'cambiar') { X = { fase: 'inicio', tema: X.tema, base: exBaseAuto(X.tema), auto: true }; exPintar(); }
       else if (a === 'puerta') exPuerta(parseInt(v, 10));
       else if (a === 'saltar') exEmpezar();
@@ -2740,7 +2745,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
   var Exp = { abrir: function () { exEnlazar(); exAbrir(); }, activo: function () { return !!(X && X.fase !== 'inicio' && X.fase !== 'fin'); }, tecla: exTeclaFisica };
 
   if (TEST) API.exp = {
-    abrir: function () { Exp.abrir(); }, nueva: function (t, b) { exEnlazar(); UI.mostrar('p-exp'); exNueva(t, b); }, puerta: exPuerta, responder: exResponder, continuar: exContinuar, reliquia: exReliquia, pista: exPista,
+    abrir: function () { Exp.abrir(); }, nueva: function (t, b, n) { exEnlazar(); UI.mostrar('p-exp'); exNueva(t, b, n); }, puerta: exPuerta, responder: exResponder, continuar: exContinuar, reliquia: exReliquia, pista: exPista,
     empezar: exEmpezar, respuesta: function () { return X && X.q ? X.q.valor : null; }, estado: function () { return X; }, baseAuto: exBaseAuto, abandonar: exAbandonar, tecla: exTecla
   };
 
