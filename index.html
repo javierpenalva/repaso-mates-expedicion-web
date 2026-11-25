@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-OQ1Kgsofv1xgVBF7k4ngFspXVd6MlrzXQi7BAawS8Pc='; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-CVpLtRgeJriGTHAwl/9BQy0e8qq3KyY6AYVka8Vqfy8='; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -63,6 +63,7 @@ sup{font-size:.55em;line-height:0;position:relative;top:-.85em;vertical-align:ba
 #chip-alumno{margin-left:auto;background:rgba(255,255,255,.16);border-radius:999px;padding:8px 16px;font-weight:700;font-size:18px;white-space:nowrap;flex:0 0 auto}
 .btn-barra{flex:0 0 auto;min-height:56px;min-width:56px;padding:0 16px;border-radius:14px;border:0;background:rgba(255,255,255,.2);font-weight:800;font-size:18px;color:#fff;white-space:nowrap}
 #btn-pausa{margin-left:auto}
+#btn-home{min-height:44px;margin-left:8px;font-size:16px;padding:0 14px}
 #btn-sonido{margin-left:auto;flex:0 0 auto;width:56px;height:56px;border-radius:50%;border:0;background:rgba(255,255,255,.18);font-size:28px}
 #chip-alumno:not([hidden])+#btn-sonido,#btn-salir:not([hidden])+#btn-sonido,#btn-pausa:not([hidden])+#btn-salir+#btn-sonido{margin-left:0}
 #btn-pausa:not([hidden])~#chip-alumno{margin-left:0}
@@ -507,6 +508,27 @@ body.jefe .tarjeta .cat{color:#7b1fa2}
 #p-exp[data-sala="10"]{background:linear-gradient(180deg,rgba(255,40,70,.38),rgba(30,0,40,.5) 80%)}
 @media(prefers-reduced-motion:reduce){.ex-entrada,.ex-escena{animation:none}}
 @media(max-width:560px){.ex-nodo{font-size:.7rem;padding:2px 0}.ex-camino{margin-bottom:4px}}
+
+.ini-cab{text-align:center;margin:4px 0 6px}
+.ini-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:960px;margin:8px auto;width:100%}
+.ini-card{border:3px solid rgba(255,255,255,.3);border-radius:24px;padding:18px 14px;color:#fff;font:inherit;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:0 6px 0 rgba(0,0,0,.3);background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.07))}
+.ini-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.3)}
+.ini-card .ic{font-size:3.4rem;line-height:1}.ini-card b{font-size:1.5rem}
+.ini-card .d{font-size:1rem;color:var(--tiza2);line-height:1.3}
+.ini-dato{margin-top:auto;padding:4px 12px;border-radius:999px;background:rgba(0,0,0,.3);font-weight:800;font-size:.95rem}
+.ini-card.exp{border-color:var(--acento);background:linear-gradient(180deg,rgba(255,150,60,.35),rgba(255,80,110,.14))}
+@media(max-width:700px){.ini-cards{grid-template-columns:1fr;gap:10px}.ini-card{flex-direction:row;flex-wrap:wrap;text-align:left;padding:12px 14px;gap:2px 12px;align-items:center}
+.ini-card .ic{font-size:2.4rem;flex:0 0 auto}.ini-card b{flex:1;font-size:1.25rem}.ini-card .d{flex:1 1 100%;font-size:.9rem}.ini-dato{margin-top:4px}}
+
+.ex-leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin:6px auto 10px;padding:8px 12px;border-radius:16px;background:rgba(0,0,0,.25);max-width:680px}
+.ex-leyenda span{white-space:nowrap}.ex-leyenda small{color:var(--tiza2)}
+.ex-paso{max-width:680px;margin:10px auto;padding:8px 10px 6px;border-radius:18px;background:rgba(255,255,255,.08)}
+.ex-paso .ex-et{text-align:left;margin:2px 0 4px}
+.ex-n{display:inline-flex;width:1.5em;height:1.5em;align-items:center;justify-content:center;border-radius:50%;background:var(--acento);color:#1b2a3a;font-weight:900;margin-right:4px}
+.ex-temas{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.ex-temas .todo{grid-column:1/-1}
+.ex-temas .opc{font-size:.95rem;padding:10px 8px}
+.ex-dur{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ex-dur .opc{padding:10px 4px;font-size:.95rem}.ex-dur small{display:block}
+@media(min-width:700px){.ex-temas{grid-template-columns:repeat(3,1fr)}.ex-temas .todo{grid-column:auto}}
 @media(max-width:560px){.ex-relics{grid-template-columns:1fr}.ex-hud{gap:4px 8px;padding:4px 10px;font-size:.9rem}.ex-co,.ex-rel{font-size:1rem;letter-spacing:1px}
 #p-exp{padding:4px 10px 10px;overflow-y:auto}.ex-tarjeta{padding:8px 10px 10px;margin-bottom:6px}.ex-tag{font-size:.78rem;margin-bottom:2px}.ex-expr{font-size:clamp(30px,10vw,46px)}
 .ex-resp{min-height:48px;font-size:clamp(26px,8vw,38px);margin-top:4px}#ex-teclado{--tecla:clamp(44px,6.8vh,56px);gap:6px}.ex-fb{padding:8px 10px;margin:6px auto}}
@@ -519,6 +541,7 @@ body.jefe .tarjeta .cat{color:#7b1fa2}
 <div id="app">
   <header id="barra">
     <button id="logo" class="logo" type="button" aria-label="Repaso de Mates"><span aria-hidden="true">∑</span><span class="logo-t">Repaso de Mates</span></button>
+    <button id="btn-home" class="btn-barra" type="button" hidden aria-label="Volver al inicio">🏠 Inicio</button>
     <button id="btn-pausa" class="btn-barra" type="button" hidden>⏸ Pausa</button>
     <button id="btn-salir" class="btn-barra" type="button" hidden>✔ Terminar</button>
     <div id="chip-alumno" hidden></div>
@@ -557,20 +580,33 @@ body.jefe .tarjeta .cat{color:#7b1fa2}
       </div>
     </section>
 
-    <!-- 2. MAPA DE MUNDOS (elegir tema obligatorio) -->
-    <section id="p-menu" class="pantalla scroll" aria-label="Mapa de mundos">
+    <!-- 1b. INICIO: tres sitios a los que ir -->
+    <section id="p-inicio" class="pantalla scroll" aria-label="Inicio">
+      <div class="ini-cab"><h1 class="titulo" id="ini-saludo">¡Hola!</h1><p class="sub">¿Qué quieres hacer hoy?</p></div>
+      <div class="ini-cards">
+        <button type="button" class="ini-card exp" id="btn-exp"><span class="ic" aria-hidden="true">⚔️</span><b>Expedición</b><span class="d">Una aventura de 10 a 20 salas. Gana monedas, elige reliquias y vence a Lord Negativo.</span><span class="ini-dato" id="ini-exp-dato"></span></button>
+        <button type="button" class="ini-card mun" id="btn-mundos"><span class="ic" aria-hidden="true">🗺️</span><b>Mundos</b><span class="d">Practica un tema y sube de nivel. Con nivel 6 en los 5 mundos se abre el Jefe Final.</span><span class="ini-dato" id="ini-mun-dato"></span></button>
+        <button type="button" class="ini-card tro" id="btn-medallas"><span class="ic" aria-hidden="true">🏆</span><b>Trofeos</b><span class="d">Tus medallas, tus estadísticas y la copia de seguridad.</span><span class="ini-dato" id="ini-tro-dato"></span></button>
+      </div>
+      <div class="fila-botones">
+        <button class="btn suave" id="btn-tema" type="button">🎨 Mi tema</button>
+        <button class="btn suave" id="btn-ayuda" type="button">❓ Cómo funciona</button>
+        <button class="btn suave" id="btn-cambiar" type="button">🔁 Cambiar alumno</button>
+      </div>
+      <div id="mapa-guarda" role="note" hidden></div>
+    </section>
+
+    <!-- 2. MUNDOS (mapa): elegir tema para entrenar -->
+    <section id="p-menu" class="pantalla scroll" aria-label="Mundos">
       <div class="mapa-cab">
-        <h1 class="titulo" id="saludo">¡Hola!</h1>
+        <h1 class="titulo" id="saludo">🗺️ Mundos</h1>
         <div class="mapa-resumen" id="mapa-resumen" role="status"></div>
       </div>
-      <div class="exp-cta"><button class="btn verde ex-grande" id="btn-exp" type="button">⚔️ Expedición</button><span>10 salas seguidas, reliquias y un jefe final. ¡Mucho más que repasar!</span></div>
       <p class="sub" id="mapa-sub">Elige un mundo para entrenar.</p>
       <div class="mapa" id="mapa"></div>
       <div class="mapa-faltan" id="mapa-faltan" role="status"></div>
-      <div id="mapa-guarda" role="note" hidden></div>
       <div class="fila-botones">
-        <button class="btn" id="btn-ayuda" type="button">❓ Cómo funciona</button>
-        <button class="btn suave" id="btn-cambiar" type="button">🔁 Cambiar alumno</button>
+        <button class="btn verde" id="btn-inicio-m" type="button">🏠 Volver al inicio</button>
       </div>
       <div class="escena" id="escena-menu" aria-hidden="true" hidden></div>
     </section>
@@ -583,7 +619,7 @@ body.jefe .tarjeta .cat{color:#7b1fa2}
       <div class="mapa-cab"><h1 class="titulo" id="tro-titulo">🏆 Sala de trofeos</h1></div>
       <div class="sala" id="tro-cuerpo"></div>
       <div class="fila-botones">
-        <button class="btn verde" id="tro-volver" type="button">🗺 Volver al mapa</button>
+        <button class="btn verde" id="tro-volver" type="button">🏠 Volver al inicio</button>
         <button class="btn" id="tro-tema" type="button">🎨 Cambiar tema</button>
         <button class="btn" id="tro-copia" type="button">💾 Copia de seguridad</button>
       </div>
@@ -2653,14 +2689,15 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     if (X.fase === 'inicio') {
       var hi = exHistorial();
       h = '<div class="ex-cab"><div class="ex-ic" aria-hidden="true">' + (VIS.heroe || '🧭') + '</div><h1 class="titulo">La Expedición</h1>' +
-        '<p class="sub">Salas seguidas, cada vez un poco más difíciles; cofres con reliquias por el camino y Lord Negativo al final. Tú eliges cuánto dura. Cada acierto da monedas; cada fallo cuesta un corazón.</p></div>' +
-        '<p class="ex-et"><b>¿Qué quieres practicar?</b></p><div class="ex-fila" role="group" aria-label="Tema">' + nomT.map(function (n, i) { return '<button type="button" class="opc' + (X.tema === i ? ' sel' : '') + '" data-a="tema" data-v="' + i + '" aria-pressed="' + (X.tema === i) + '">' + exEsc(i ? TEMA_ICONO[i] + ' ' + n : '🎲 ' + n) + '</button>'; }).join('') + '</div>' +
-        '<p class="ex-et"><b>Tu nivel de partida:</b> <span class="ex-niv">' + X.base + '</span> <small>(' + (X.auto ? 'según tu nivel en los mundos' : 'elegido por ti') + ')</small></p>' +
-        '<div class="ex-fila"><button type="button" class="btn suave" data-a="menos" aria-label="Bajar nivel de partida">− Más fácil</button><button type="button" class="btn suave" data-a="mas" aria-label="Subir nivel de partida">Más difícil +</button></div>' +
-        '<p class="ex-et"><b>Duración:</b></p><div class="ex-fila" role="group" aria-label="Duración">' + [10, 15, 20].map(function (d) { return '<button type="button" class="opc' + (X.n === d ? ' sel' : '') + '" data-a="dur" data-v="' + d + '" aria-pressed="' + (X.n === d) + '">' + EX_DUR[d] + ' · ' + d + ' salas</button>'; }).join('') + '</div>' +
-        '<div class="ex-fila"><button type="button" class="btn verde ex-grande" data-a="entrar">⚔️ Entrar en la mazmorra</button></div>' +
+        '<p class="sub">Cruza las salas, gana monedas y vence a Lord Negativo.</p></div>' +
+        '<div class="ex-leyenda" role="list"><span role="listitem">❤️ <b>3 vidas</b> <small>un fallo = −1</small></span><span role="listitem">' + v.mo + ' <b>Monedas</b> <small>por acierto</small></span><span role="listitem">🎁 <b>Cofres</b> <small>reliquias</small></span><span role="listitem">👾 <b>Jefe</b> <small>al final</small></span></div>' +
+        '<div class="ex-paso"><p class="ex-et"><span class="ex-n">1</span> <b>¿Qué quieres practicar?</b></p><div class="ex-fila ex-temas" role="group" aria-label="Tema">' + nomT.map(function (n, i) { return '<button type="button" class="opc' + (X.tema === i ? ' sel' : '') + (i === 0 ? ' todo' : '') + '" data-a="tema" data-v="' + i + '" aria-pressed="' + (X.tema === i) + '">' + exEsc(i ? TEMA_ICONO[i] + ' ' + n : '🎲 ' + n) + '</button>'; }).join('') + '</div></div>' +
+        '<div class="ex-paso"><p class="ex-et"><span class="ex-n">2</span> <b>¿Cuánto quieres que dure?</b></p><div class="ex-fila ex-dur" role="group" aria-label="Duración">' + [10, 15, 20].map(function (d) { return '<button type="button" class="opc' + (X.n === d ? ' sel' : '') + '" data-a="dur" data-v="' + d + '" aria-pressed="' + (X.n === d) + '">' + EX_DUR[d] + ' <small>' + d + ' salas</small></button>'; }).join('') + '</div></div>' +
+        '<div class="ex-paso"><p class="ex-et"><span class="ex-n">3</span> <b>¿Con qué dificultad?</b> <span class="ex-niv">Nivel ' + X.base + '</span> <small>(' + (X.auto ? 'el tuyo en los mundos' : 'elegido por ti') + ')</small></p>' +
+        '<div class="ex-fila"><button type="button" class="btn suave" data-a="menos" aria-label="Bajar nivel de partida">− Más fácil</button><button type="button" class="btn suave" data-a="mas" aria-label="Subir nivel de partida">Más difícil +</button></div></div>' +
+        '<div class="ex-fila"><button type="button" class="btn verde ex-grande" data-a="entrar">⚔️ ¡Entrar en la mazmorra!</button></div>' +
         (hi.n ? '<p class="sub ex-et">Tus expediciones: <b>' + hi.n + '</b> · victorias <b>' + hi.vic + '</b> · mejor botín <b>' + v.mo + ' ' + hi.mejor + '</b> · sala más profunda <b>' + hi.sala + '</b></p>' : '') +
-        '<div class="ex-fila"><button type="button" class="btn suave" data-a="mapa">← Volver al mapa</button></div>';
+        '<div class="ex-fila"><button type="button" class="btn suave" data-a="mapa">🏠 Volver al inicio</button></div>';
     } else if (X.fase === 'entrada') {
       h = exHud() + '<div class="ex-entrada" data-a="saltar"><div class="ex-num">Sala ' + X.sala + '</div><div class="ex-escena" aria-hidden="true">' + EX_ESC[exIdx(X.sala)] + '</div><h2 class="ex-h2">' + exEsc(exNombre(X.sala)) + '</h2><p class="sub">Nivel ' + exNivelSala(0) + ' · ' + (X.sala <= 3 ? 'adelante' : (X.sala <= 6 ? 'cada vez más adentro' : 'cuidado, esto se complica')) + '</p></div>';
     } else if (X.fase === 'puertas') {
@@ -2692,9 +2729,10 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
         '<div class="ex-res"><div><b>' + v.mo + ' ' + X.monedas + '</b>botín' + (X.nuevoRecord ? ' · ¡récord!' : '') + '</div><div><b>' + X.aciertos + '/' + (X.aciertos + X.errores + X.blancos) + '</b>aciertos</div><div><b>🔥 ' + X.mejorRacha + '</b>mejor racha</div><div><b>' + (X.reliquias.length ? X.reliquias.map(function (k) { return EX_RELIQUIAS[k].ic; }).join(' ') : '—') + '</b>reliquias</div></div>' +
         (X.rec ? '<p class="sub ex-et">Código de resultado: <code class="ex-cod">' + exEsc(X.rec.codigo) + '</code></p>' : '<p class="sub ex-et">No has respondido ninguna pregunta: no se guarda nada.</p>') +
         '<div class="ex-fila"><button type="button" class="btn verde" data-a="otra">⚔️ Otra expedición</button><button type="button" class="btn suave" data-a="cambiar">Cambiar tema o nivel</button></div>' +
-        '<div class="ex-fila"><button type="button" class="btn suave" data-a="copia">💾 Copia de seguridad</button><button type="button" class="btn suave" data-a="trofeos">🏆 Mis trofeos</button><button type="button" class="btn suave" data-a="mapa">← Mapa</button></div>';
+        '<div class="ex-fila"><button type="button" class="btn suave" data-a="copia">💾 Copia de seguridad</button><button type="button" class="btn suave" data-a="trofeos">🏆 Mis trofeos</button><button type="button" class="btn suave" data-a="mapa">🏠 Inicio</button></div>';
     }
     p.innerHTML = h;
+    if (UI.homeVis) UI.homeVis('p-exp');
   }
 
   /* ---------- eventos ---------- */
@@ -2729,7 +2767,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
       else if (a === 'abandonar') exAbandonar();
       else if (a === 'copia') UI.abrirCopia();
       else if (a === 'trofeos') UI.irTrofeos();
-      else if (a === 'mapa') { clearTimeout(exTimer); UI.irMenu(); }
+      else if (a === 'mapa') { clearTimeout(exTimer); UI.irInicio(); }
     });
   }
   // teclado físico (lo llama el controlador global cuando la pantalla activa es la expedición)
@@ -2742,7 +2780,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     } else if (X.fase === 'entrada' && k === 'Enter') { e.preventDefault(); exEmpezar(); }
     else if (X.fase === 'resuelta' && k === 'Enter') { e.preventDefault(); exContinuar(); }
   }
-  var Exp = { abrir: function () { exEnlazar(); exAbrir(); }, activo: function () { return !!(X && X.fase !== 'inicio' && X.fase !== 'fin'); }, tecla: exTeclaFisica };
+  var Exp = { historial: exHistorial, abrir: function () { exEnlazar(); exAbrir(); }, activo: function () { return !!(X && X.fase !== 'inicio' && X.fase !== 'fin'); }, tecla: exTeclaFisica };
 
   if (TEST) API.exp = {
     abrir: function () { Exp.abrir(); }, nueva: function (t, b, n) { exEnlazar(); UI.mostrar('p-exp'); exNueva(t, b, n); }, puerta: exPuerta, responder: exResponder, continuar: exContinuar, reliquia: exReliquia, pista: exPista,
@@ -2898,6 +2936,10 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
   };
 
   /* --- navegación entre pantallas --- */
+  UI.homeVis = function (id) {                       // 🏠 Inicio: visible en Mundos, Trofeos, Resultados y Expedición (no durante una partida ni una carrera)
+    id = id || ('p-' + UI.pant); var b = $('btn-home'); if (!b) return;
+    b.hidden = !(id === 'p-menu' || id === 'p-trofeos' || id === 'p-result' || (id === 'p-exp' && !Exp.activo()));
+  };
   UI.mostrar = function (id) {
     var ps = document.querySelectorAll('.pantalla');
     for (var i = 0; i < ps.length; i++) ps[i].classList.toggle('activa', ps[i].id === id);
@@ -2907,6 +2949,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     chip.hidden = alumnoActual === null || id === 'p-lista';
     if (!chip.hidden) chip.textContent = etqAlumno(grupoActual, alumnoActual);
     var enJuego = id === 'p-juego';
+    UI.homeVis(id);
     document.body.classList.toggle('en-juego', enJuego);
     document.body.classList.toggle('jefe', !!(J && J.modo === 'JF' && (enJuego || id === 'p-result')));
     $('btn-pausa').hidden = !enJuego; $('btn-salir').hidden = !enJuego;
@@ -2929,7 +2972,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
   UI.irCurso = function () {
     var dv = UI.vinculada();
     if (!dv) { alumnoActual = null; UI.aplicarTema('pizarra'); }
-    if (dv) { grupoActual = dv.g; alumnoActual = dv.l; UI.irMenu(); return; }
+    if (dv) { grupoActual = dv.g; alumnoActual = dv.l; UI.irInicio(); return; }
     alumnoActual = null;
     var u = Almacen.ultimo() || grupoActual || '';
     UI.selCurso = grupoValido(u) ? u.charAt(0) : ''; UI.selGrupo = grupoValido(u) ? u.charAt(1) : '';
@@ -2991,7 +3034,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
       var b = e.target.closest ? e.target.closest('button[data-tema-v]') : null; if (!b) return;
       var id = b.getAttribute('data-tema-v'); Almacen.setProg(alumnoActual, 'T', { v: id, ts: Date.now() });
       Modal.cerrar(); $('modal-caja').onclick = null; Sonido.despertar(); Sonido.nivel();
-      if (UI.pant === 'trofeos') UI.irTrofeos(); else UI.irMenu();
+      if (UI.pant === 'trofeos') UI.irTrofeos(); else if (UI.pant === 'inicio') { UI.irMenu(); UI.irInicio(); } else UI.irMenu();
     };
   };
 
@@ -3008,9 +3051,20 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
       '<path d="M0 32 Q12 20 24 32 T48 32 T72 31 T100 30 L100 60 L0 60Z" class="col1" opacity=".55"/><path d="M0 60 L0 40 Q15 30 30 40 T60 40 T100 38 L100 60Z" class="col2" opacity=".5"/>' +
       '<polyline points="' + pts + '" fill="none" stroke="#fff6c9" stroke-width="1.6" stroke-dasharray="2.2 2.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="stroke-width:5px"/></svg>';
   }
+  UI.irInicio = function () {
+    UI.aplicarTema(temaDelAlumno());
+    $('ini-saludo').textContent = '¡Hola, número ' + alumnoActual + '!';
+    var i, listos = 0; for (i = 1; i <= 5; i++) if (nivelTema(alumnoActual, i) >= 6) listos++;
+    var hi = Exp.historial();
+    $('ini-exp-dato').textContent = hi.n ? '🪙 Mejor botín ' + hi.mejor + ' · ' + hi.vic + (hi.vic === 1 ? ' victoria' : ' victorias') : '¡Aún no has jugado!';
+    $('ini-mun-dato').textContent = '⭐ ' + listos + '/5 mundos superados';
+    $('ini-tro-dato').textContent = '🏅 ' + Object.keys(medallasAlumno()).length + '/' + MEDALLAS.length + ' medallas';
+    var gu = $('mapa-guarda');
+    if (esIOS() && !esApp()) { gu.hidden = false; gu.innerHTML = '📲 Para no perder tu progreso: pulsa <b>Compartir → «Añadir a pantalla de inicio»</b> y abre siempre el juego desde ese icono. Y haz una 💾 copia de seguridad en Trofeos.'; } else gu.hidden = true;
+    UI.mostrar('p-inicio');
+  };
   UI.irMenu = function () {
     UI.aplicarTema(temaDelAlumno());
-    $('saludo').textContent = '¡Hola, número ' + alumnoActual + '!';
     var niv = [0], i, sum = 0, listos = 0, sug = 0, minN = 99;
     for (i = 1; i <= 5; i++) { niv[i] = nivelTema(alumnoActual, i); sum += niv[i]; if (niv[i] >= 6) listos++; else if (niv[i] < minN) { minN = niv[i]; sug = i; } }
     var jf = jefeEstado(alumnoActual);
@@ -3029,12 +3083,10 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     var hp = jf.abierto ? POS_CASTILLO : POS[sug || 1];
     h += '<div class="heroe" style="--x:' + hp[0] + '%;--y:' + hp[1] + '%" aria-hidden="true">' + heroeSVG() + '</div>';
     $('mapa').innerHTML = h;
-    $('mapa-resumen').innerHTML = '<span>⭐ Mundos con nivel 6: ' + listos + '/5</span><span>🪙 ' + sum + '/50</span><span><button type="button" class="chip-med btn suave" id="btn-medallas" aria-label="Abrir mi sala de trofeos">' + VIS.ic + ' Trofeos · 🏅 ' + Object.keys(medallasAlumno()).length + '/' + MEDALLAS.length + '</button></span><span><button type="button" class="chip-med btn suave" id="btn-tema" aria-label="Elegir mi tema">🎨 Mi tema</button></span><span>' + (jf.vencido ? VIS.corona + ' Jefe vencido' : (jf.abierto ? '🏰 Jefe abierto' : '🔒 Jefe cerrado')) + '</span>';
+    $('mapa-resumen').innerHTML = '<span title="Mundos en los que has llegado al nivel 6">⭐ Mundos superados: ' + listos + '/5</span><span title="Suma de tus niveles">📈 Nivel total: ' + sum + '/50</span><span>' + (jf.vencido ? VIS.corona + ' Jefe vencido' : (jf.abierto ? '🏰 Jefe abierto' : '🔒 Jefe cerrado')) + '</span>';
     $('mapa-sub').textContent = 'Elige un mundo para entrenar. Con nivel 6 o más en los 5 mundos se abre el castillo del Jefe Final.';
     if (jf.abierto) $('mapa-faltan').innerHTML = jf.vencido ? '👑 ¡Has vencido a Lord Negativo! Puedes volver a enfrentarte a él cuando quieras.' : '🏰 <b>¡Los 5 mundos superados!</b> El castillo está abierto: toca el castillo para enfrentarte a Lord Negativo.';
     else $('mapa-faltan').innerHTML = 'Para abrir el castillo te falta: ' + jf.faltan.map(function (f) { return '<b>Mundo ' + f.tema + '</b> (' + (f.nivel ? 'nivel ' + f.nivel + ' de 6' : 'sin empezar') + ')'; }).join(', ') + '.';
-    var gu = $('mapa-guarda');
-    if (esIOS() && !esApp()) { gu.hidden = false; gu.innerHTML = '📲 Para no perder tu progreso: pulsa <b>Compartir → «Añadir a pantalla de inicio»</b> y abre siempre el juego desde ese icono. Y haz una 💾 copia de seguridad en la Sala de trofeos.'; } else gu.hidden = true;
     UI.mostrar('p-menu');
   };
   // toque en el castillo
@@ -3082,7 +3134,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
         var v = $('visor-lista'); v.classList.remove('sacudir'); void v.offsetWidth; v.classList.add('sacudir'); return;
       }
       Modal.abrir('<h2>¿Eres el número ' + n + ' de ' + etqGrupo(grupoActual) + '?</h2><p>Comprueba que es el tuyo: tus resultados se guardan con este curso, grupo y número.</p>' + (Almacen.ajustes().personal && !Almacen.dueno() ? '<p><b>🔒 Esta iPad quedará vinculada a ti.</b> Solo el profesorado podrá cambiarlo.</p>' : ''),
-        [{ t: 'No, corregir', fn: function () { Modal.cerrar(); } }, { t: 'Sí, soy yo', cls: 'verde', id: 'conf-si', fn: function () { Modal.cerrar(); alumnoActual = n; if (Almacen.ajustes().personal && !Almacen.dueno()) Almacen.setDueno(grupoActual, n); UI.irMenu(); } }],
+        [{ t: 'No, corregir', fn: function () { Modal.cerrar(); } }, { t: 'Sí, soy yo', cls: 'verde', id: 'conf-si', fn: function () { Modal.cerrar(); alumnoActual = n; if (Almacen.ajustes().personal && !Almacen.dueno()) Almacen.setDueno(grupoActual, n); UI.irInicio(); } }],
         { defecto: 'conf-si', cancel: function () { Modal.cerrar(); } });
     }
   };
@@ -3621,7 +3673,11 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     Teclado.crear($('tec-lista'), { signo: false, fila: '<button type="button" class="tecla entrar" data-k="ok">Entrar</button>' });
     Teclado.crear($('tec-juego'), { signo: true, fila: '<button type="button" class="tecla nose" data-k="nose">No sé</button><button type="button" class="tecla ok" data-k="ok" aria-label="Comprobar">✔ Comprobar</button>' });
     // estrella y luces del árbol de la escena de inicio encendidas
-    $('mapa-resumen').addEventListener('click', function (e) { if (e.target.closest && e.target.closest('#btn-medallas')) { Sonido.despertar(); UI.irTrofeos(); } else if (e.target.closest && e.target.closest('#btn-tema')) { Sonido.despertar(); UI.abrirTemas(); } });
+    $('btn-medallas').addEventListener('click', function () { Sonido.despertar(); UI.irTrofeos(); });
+    $('btn-tema').addEventListener('click', function () { Sonido.despertar(); UI.abrirTemas(); });
+    $('btn-mundos').addEventListener('click', function () { Sonido.despertar(); UI.irMenu(); });
+    $('btn-inicio-m').addEventListener('click', function () { Sonido.despertar(); UI.irInicio(); });
+    $('btn-home').addEventListener('click', function () { Sonido.despertar(); UI.irInicio(); });
     $('mapa').addEventListener('click', function (e) {
       var j = e.target.closest ? e.target.closest('button[data-jefe]') : null;
       if (j) { Sonido.despertar(); UI.abrirJefe(); return; }
@@ -3631,7 +3687,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     $('btn-ayuda').addEventListener('click', Modal.ayuda);
     $('btn-exp').addEventListener('click', function () { Sonido.despertar(); Exp.abrir(); });
     $('btn-cambiar').addEventListener('click', function () { UI.cambiarAlumno(UI.irLista); });
-    $('tro-volver').addEventListener('click', function () { UI.irMenu(); });
+    $('tro-volver').addEventListener('click', function () { UI.irInicio(); });
     $('tro-tema').addEventListener('click', function () { Sonido.despertar(); UI.abrirTemas(); });
     $('tro-copia').addEventListener('click', function () { Sonido.despertar(); UI.abrirCopia(); });
     $('curso-recuperar').addEventListener('click', function () { Sonido.despertar(); UI.abrirRecuperar(); });
