@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-S1HzIW0Hu+xLRUWGmK49Nv0t9zb6QDtQZw06I6+nM74='; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-AJioszXJxmdpcZR4zGec5z9caSmzz3Li5qJt+k2iopU='; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -486,6 +486,27 @@ body.jefe .tarjeta .cat{color:#7b1fa2}
 .ex-cod{background:rgba(0,0,0,.25);padding:2px 8px;border-radius:8px;word-break:break-all}
 .tiembla{animation:ex-tiembla .35s}@keyframes ex-tiembla{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 .brilla{animation:ex-brilla .5s}@keyframes ex-brilla{0%{box-shadow:0 0 0 0 rgba(79,224,160,.7)}100%{box-shadow:0 0 0 24px rgba(79,224,160,0)}}
+
+.ex-camino{display:flex;justify-content:center;gap:4px;margin:0 auto 8px;max-width:680px;width:100%}
+.ex-nodo{flex:1;min-width:0;text-align:center;font-size:.8rem;font-weight:800;padding:3px 0;border-radius:999px;background:rgba(0,0,0,.28);color:var(--tiza2);border:2px solid transparent}
+.ex-nodo.hecha{background:rgba(79,224,160,.35);color:#fff}.ex-nodo.actual{border-color:var(--acento);background:rgba(255,226,122,.3);color:#fff;transform:scale(1.12)}.ex-nodo.jefe{background:rgba(255,93,115,.3)}
+.ex-entrada{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;animation:ex-ent 1.7s both}
+.ex-num{font-size:1.1rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--acento)}
+.ex-escena{font-size:clamp(90px,26vw,160px);line-height:1.1;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5));animation:ex-esc 1.7s both}
+@keyframes ex-ent{0%{opacity:0}18%{opacity:1}85%{opacity:1}100%{opacity:0}}
+@keyframes ex-esc{0%{transform:scale(.5) translateY(30px)}25%{transform:scale(1.08)}40%{transform:scale(1)}100%{transform:scale(1.12)}}
+#p-exp[data-sala="1"]{background:radial-gradient(circle at 50% 30%,rgba(255,190,90,.18),transparent 60%)}
+#p-exp[data-sala="2"]{background:radial-gradient(circle at 50% 30%,rgba(255,150,60,.2),transparent 60%)}
+#p-exp[data-sala="3"]{background:linear-gradient(180deg,rgba(170,200,255,.18),transparent 70%)}
+#p-exp[data-sala="4"]{background:linear-gradient(180deg,rgba(190,140,80,.25),transparent 70%)}
+#p-exp[data-sala="5"]{background:linear-gradient(180deg,rgba(120,210,255,.28),transparent 70%)}
+#p-exp[data-sala="6"]{background:linear-gradient(180deg,rgba(150,90,200,.3),transparent 70%)}
+#p-exp[data-sala="7"]{background:linear-gradient(180deg,rgba(255,110,40,.3),transparent 70%)}
+#p-exp[data-sala="8"]{background:linear-gradient(180deg,rgba(80,200,110,.28),transparent 70%)}
+#p-exp[data-sala="9"]{background:linear-gradient(180deg,rgba(255,226,122,.2),rgba(255,93,115,.15) 70%)}
+#p-exp[data-sala="10"]{background:linear-gradient(180deg,rgba(255,40,70,.38),rgba(30,0,40,.5) 80%)}
+@media(prefers-reduced-motion:reduce){.ex-entrada,.ex-escena{animation:none}}
+@media(max-width:560px){.ex-nodo{font-size:.7rem;padding:2px 0}.ex-camino{margin-bottom:4px}}
 @media(max-width:560px){.ex-relics{grid-template-columns:1fr}.ex-hud{gap:4px 8px;padding:4px 10px;font-size:.9rem}.ex-co,.ex-rel{font-size:1rem;letter-spacing:1px}
 #p-exp{padding:4px 10px 10px;overflow-y:auto}.ex-tarjeta{padding:8px 10px 10px;margin-bottom:6px}.ex-tag{font-size:.78rem;margin-bottom:2px}.ex-expr{font-size:clamp(30px,10vw,46px)}
 .ex-resp{min-height:48px;font-size:clamp(26px,8vw,38px);margin-top:4px}#ex-teclado{--tecla:clamp(44px,6.8vh,56px);gap:6px}.ex-fb{padding:8px 10px;margin:6px auto}}
@@ -2452,6 +2473,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     naturaleza:  { mo: '🍀', p1: ['🌿', 'Sendero tranquilo'], p2: ['⛰️', 'Cima difícil'], salas: ['', 'Linde del bosque', 'Arroyo', 'Claro de luz', 'Cueva de murciélagos', 'Puente colgante', 'Pantano', 'Montaña', 'Cascada', 'Cumbre', 'Guarida de Lord Negativo'] },
     magia:       { mo: '🔮', p1: ['🚪', 'Pasillo seguro'], p2: ['🐉', 'Cámara del dragón'], salas: EX_SALAS_BASE }
   };
+  var EX_ESC = ['', '🕯️', '🔦', '🪞', '📚', '🧊', '⚰️', '⚒️', '🌿', '🪜', '👑'];   // escenario de cada sala
   var X = null, exTimer = null, exEnlazado = false;
   var exEl = function () { return document.getElementById('p-exp'); };
   var exEsc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
@@ -2496,9 +2518,14 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
   // entra en la sala actual: las salas 1-9 plantean su pregunta directamente; la 10 muestra primero a Lord Negativo
   function exEntrar() {
     if (X.sala === EX_SALAS) { X.camino = 'jefe'; X.fase = 'puertas'; exPintar(); return; }
-    X.camino = 'sala'; exPregunta(exNivelSala(0));
+    X.camino = 'sala'; X.fase = 'entrada'; Sonido.nivel(); exPintar();
+    clearTimeout(exTimer); exTimer = setTimeout(exEmpezar, TEST ? 30 : 1700);
+  }
+  function exEmpezar() {                                       // termina la animación de entrada y plantea la pregunta de la sala
+    if (!X || X.fase !== 'entrada') return;
+    clearTimeout(exTimer); exPregunta(exNivelSala(0));
     if (X.sala === 7) exMedalla('ex7');
-    exPintar();
+    Sonido.campana(); exPintar();
   }
   function exPuerta() {                                        // solo el combate final necesita un toque para empezar
     if (!X || X.fase !== 'puertas' || X.sala !== EX_SALAS) return;
@@ -2600,16 +2627,25 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
   }
 
   /* ---------- pintado ---------- */
+  function exCamino() {
+    var h = '<div class="ex-camino" role="img" aria-label="Sala ' + X.sala + ' de ' + EX_SALAS + '">';
+    for (var i = 1; i <= EX_SALAS; i++) {
+      var cl = i < X.sala ? 'hecha' : (i === X.sala ? 'actual' : ''), ic = i < X.sala ? '✔' : (i === EX_SALAS ? '👾' : ((i === 3 || i === 6) ? '🎁' : i));
+      h += '<span class="ex-nodo ' + cl + (i === EX_SALAS ? ' jefe' : '') + '">' + ic + '</span>';
+    }
+    return h + '</div>';
+  }
   function exHud() {
     var v = exV();
     return '<div class="ex-hud"><span class="ex-co" aria-label="' + X.vidas + ' corazones">' + exCorazones() + (X.escudos ? ' 🛡' + (X.escudos > 1 ? '×' + X.escudos : '') : '') + '</span>' +
       '<span>🚪 Sala ' + Math.min(X.sala, EX_SALAS) + '/' + EX_SALAS + '</span><span>' + v.mo + ' ' + X.monedas + '</span>' +
       '<span class="ex-rel" aria-label="Reliquias">' + X.reliquias.map(function (k) { return '<span title="' + exEsc(EX_RELIQUIAS[k].n) + '">' + EX_RELIQUIAS[k].ic + '</span>'; }).join('') + '</span>' +
-      '<button type="button" class="btn suave ex-aband" data-a="abandonar">🏳</button></div>';
+      '<button type="button" class="btn suave ex-aband" data-a="abandonar">🏳</button></div>' + exCamino();
   }
   function exPintar() {
     var p = exEl(); if (!p || !X) return;
     var v = exV(), h = '', nomT = ['Mezcla de los 5 mundos'].concat([1, 2, 3, 4, 5].map(function (i) { return MUNDOS[i]; }));
+    p.setAttribute('data-sala', X.sala && X.fase !== 'inicio' && X.fase !== 'fin' ? X.sala : '0');
     if (X.faseVista !== X.fase) { X.faseVista = X.fase; UI.bloquear(); }
     if (X.fase === 'inicio') {
       var hi = exHistorial();
@@ -2621,8 +2657,10 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
         '<div class="ex-fila"><button type="button" class="btn verde ex-grande" data-a="entrar">⚔️ Entrar en la mazmorra</button></div>' +
         (hi.n ? '<p class="sub ex-et">Tus expediciones: <b>' + hi.n + '</b> · victorias <b>' + hi.vic + '</b> · mejor botín <b>' + v.mo + ' ' + hi.mejor + '</b> · sala más profunda <b>' + hi.sala + '</b></p>' : '') +
         '<div class="ex-fila"><button type="button" class="btn suave" data-a="mapa">← Volver al mapa</button></div>';
+    } else if (X.fase === 'entrada') {
+      h = exHud() + '<div class="ex-entrada" data-a="saltar"><div class="ex-num">Sala ' + X.sala + '</div><div class="ex-escena" aria-hidden="true">' + EX_ESC[X.sala] + '</div><h2 class="ex-h2">' + exEsc(v.salas[X.sala]) + '</h2><p class="sub">Nivel ' + exNivelSala(0) + ' · ' + (X.sala <= 3 ? 'adelante' : (X.sala <= 6 ? 'cada vez más adentro' : 'cuidado, esto se complica')) + '</p></div>';
     } else if (X.fase === 'puertas') {
-      h = exHud() + '<div class="ex-jefe"><div class="ex-ic" aria-hidden="true">👾</div><h2 class="ex-h2">' + exEsc(v.salas[X.sala]) + '</h2><p class="sub">Lord Negativo te espera: 3 cuentas seguidas, cada fallo cuesta un corazón y cada acierto da +5 ' + v.mo + '.</p>' +
+      h = exHud() + '<div class="ex-jefe"><div class="ex-escena" aria-hidden="true">👾</div><h2 class="ex-h2">' + exEsc(v.salas[X.sala]) + '</h2><p class="sub">Lord Negativo te espera: 3 cuentas seguidas, cada fallo cuesta un corazón y cada acierto da +5 ' + v.mo + '.</p>' +
         '<div class="ex-fila"><button type="button" class="btn verde ex-grande" data-a="puerta" data-v="2">⚔️ Enfrentarte a Lord Negativo</button></div></div>';
     } else if (X.fase === 'pregunta' || X.fase === 'resuelta') {
       var q = X.q, res = X.ultimo, et = X.camino === 'jefe' ? '👾 Jefe · pregunta ' + (EX_JEFE - X.jefeRest + 1) + ' de ' + EX_JEFE : '🚪 ' + v.salas[X.sala];
@@ -2676,6 +2714,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
       else if (a === 'entrar' || a === 'otra') exNueva(X.tema, X.base);
       else if (a === 'cambiar') { X = { fase: 'inicio', tema: X.tema, base: exBaseAuto(X.tema), auto: true }; exPintar(); }
       else if (a === 'puerta') exPuerta(parseInt(v, 10));
+      else if (a === 'saltar') exEmpezar();
       else if (a === 'tecla') exTecla(v);
       else if (a === 'comprobar') exResponder();
       else if (a === 'nose') exResponder(undefined, true);
@@ -2695,13 +2734,14 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     if (X.fase === 'pregunta') {
       if (k === 'Enter') { e.preventDefault(); exResponder(); } else if (k === 'Backspace' || k === 'Delete') { e.preventDefault(); exTecla('del'); }
       else if (k === '-' || k === '−') { e.preventDefault(); exTecla('neg'); } else if (/^\d$/.test(k)) { e.preventDefault(); exTecla(k); }
-    } else if (X.fase === 'resuelta' && k === 'Enter') { e.preventDefault(); exContinuar(); }
+    } else if (X.fase === 'entrada' && k === 'Enter') { e.preventDefault(); exEmpezar(); }
+    else if (X.fase === 'resuelta' && k === 'Enter') { e.preventDefault(); exContinuar(); }
   }
   var Exp = { abrir: function () { exEnlazar(); exAbrir(); }, activo: function () { return !!(X && X.fase !== 'inicio' && X.fase !== 'fin'); }, tecla: exTeclaFisica };
 
   if (TEST) API.exp = {
     abrir: function () { Exp.abrir(); }, nueva: function (t, b) { exEnlazar(); UI.mostrar('p-exp'); exNueva(t, b); }, puerta: exPuerta, responder: exResponder, continuar: exContinuar, reliquia: exReliquia, pista: exPista,
-    respuesta: function () { return X && X.q ? X.q.valor : null; }, estado: function () { return X; }, baseAuto: exBaseAuto, abandonar: exAbandonar, tecla: exTecla
+    empezar: exEmpezar, respuesta: function () { return X && X.q ? X.q.valor : null; }, estado: function () { return X; }, baseAuto: exBaseAuto, abandonar: exAbandonar, tecla: exTecla
   };
 
   /* ===================================================================
