@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-DmCWfd1weN8o2OfZ49yR5rTcNKlK8eeU5hRg0cOGjKw='; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-S1HzIW0Hu+xLRUWGmK49Nv0t9zb6QDtQZw06I6+nM74='; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -486,7 +486,11 @@ body.jefe .tarjeta .cat{color:#7b1fa2}
 .ex-cod{background:rgba(0,0,0,.25);padding:2px 8px;border-radius:8px;word-break:break-all}
 .tiembla{animation:ex-tiembla .35s}@keyframes ex-tiembla{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 .brilla{animation:ex-brilla .5s}@keyframes ex-brilla{0%{box-shadow:0 0 0 0 rgba(79,224,160,.7)}100%{box-shadow:0 0 0 24px rgba(79,224,160,0)}}
-@media(max-width:560px){.ex-puertas{grid-template-columns:1fr}.ex-relics{grid-template-columns:1fr}}
+@media(max-width:560px){.ex-relics{grid-template-columns:1fr}.ex-hud{gap:4px 8px;padding:4px 10px;font-size:.9rem}.ex-co,.ex-rel{font-size:1rem;letter-spacing:1px}
+#p-exp{padding:4px 10px 10px;overflow-y:auto}.ex-tarjeta{padding:8px 10px 10px;margin-bottom:6px}.ex-tag{font-size:.78rem;margin-bottom:2px}.ex-expr{font-size:clamp(30px,10vw,46px)}
+.ex-resp{min-height:48px;font-size:clamp(26px,8vw,38px);margin-top:4px}#ex-teclado{--tecla:clamp(44px,6.8vh,56px);gap:6px}.ex-fb{padding:8px 10px;margin:6px auto}}
+@media(max-height:560px) and (orientation:landscape){.ex-hud{padding:2px 10px;margin-bottom:4px}.ex-tarjeta{padding:4px 10px 6px;margin-bottom:4px}.ex-expr{font-size:clamp(26px,7vh,40px)}.ex-resp{min-height:40px;font-size:26px;margin-top:2px}}
+.ex-jefe{text-align:center;margin:auto 0}
 </style>
 </head>
 <body>
@@ -538,7 +542,7 @@ body.jefe .tarjeta .cat{color:#7b1fa2}
         <h1 class="titulo" id="saludo">¡Hola!</h1>
         <div class="mapa-resumen" id="mapa-resumen" role="status"></div>
       </div>
-      <div class="exp-cta"><button class="btn verde ex-grande" id="btn-exp" type="button">⚔️ Expedición</button><span>10 salas, 2 puertas, reliquias y un jefe. ¡Mucho más que repasar!</span></div>
+      <div class="exp-cta"><button class="btn verde ex-grande" id="btn-exp" type="button">⚔️ Expedición</button><span>10 salas seguidas, reliquias y un jefe final. ¡Mucho más que repasar!</span></div>
       <p class="sub" id="mapa-sub">Elige un mundo para entrenar.</p>
       <div class="mapa" id="mapa"></div>
       <div class="mapa-faltan" id="mapa-faltan" role="status"></div>
@@ -2426,7 +2430,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
 
   /* ===================================================================
    *  LA EXPEDICIÓN (modo principal de la versión 2)
-   *  10 salas · 2 puertas por sala · reliquias tras las salas 3 y 6 · jefe en la sala 10 (3 preguntas).
+   *  10 salas seguidas · reliquias tras las salas 3 y 6 · jefe en la sala 10 (3 preguntas).
    *  Usa el mismo generador de preguntas, el mismo alumno/curso/grupo, los temas visuales, las medallas,
    *  los códigos de resultado, las copias de seguridad y el panel del profesorado que el resto del juego.
    * =================================================================== */
@@ -2437,7 +2441,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     pista:     { ic: '💡', n: 'Chuleta', d: '2 pistas con la regla de la pregunta.' },
     corazon:   { ic: '❤️', n: 'Corazón extra', d: '+1 corazón (y lo recuperas ya).' },
     doble:     { ic: '✨', n: 'Racha de oro', d: 'Con 3 aciertos seguidos o más, las monedas se doblan.' },
-    iman:      { ic: '🧲', n: 'Imán', d: 'El camino seguro da +1 moneda.' }
+    iman:      { ic: '🧲', n: 'Imán', d: 'Cada sala da +1 moneda más.' }
   };
   var EX_SALAS_BASE = ['', 'La entrada', 'Pasillo de antorchas', 'Sala de los espejos', 'Biblioteca olvidada', 'Puente de hielo', 'La cripta', 'La forja', 'Jardín subterráneo', 'Escalera infinita', 'Trono de Lord Negativo'];
   var EX_V = {          // vocabulario por tema visual: moneda, puertas y nombres de sala
@@ -2480,7 +2484,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     X = { fase: 'puertas', sala: 1, vidas: EX_VIDAS, vidasMax: EX_VIDAS, monedas: 0, reliquias: [], racha: 0, mejorRacha: 0, aciertos: 0, errores: 0, blancos: 0,
       escudos: 0, reintentos: 0, pistas: 0, tema: tema, base: base, q: null, camino: '', buf: '', recientes: [], jefeRest: 0, ultimo: null, ganada: false,
       nivelMax: 0, inicio: Date.now(), tq: 0, sumT: 0, nResp: 0, abandonada: false, guardada: false, rec: null, nuevas: [] };
-    exPintar();
+    exEntrar();
   }
   function exPregunta(nivel) {
     var t = X.tema === 0 ? RNG.ri(1, 5) : X.tema;
@@ -2489,15 +2493,19 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     X.recientes.push(X.q.p); if (X.recientes.length > 6) X.recientes.shift();
     X.buf = ''; X.ultimo = null; X.fase = 'pregunta'; X.tq = Date.now();
   }
-  function exPuerta(i) {                                       // 0 seguro · 1 dragón · cualquier valor en la sala 10 = jefe
-    if (!X || X.fase !== 'puertas') return;
-    if (X.sala === EX_SALAS) { X.camino = 'jefe'; X.jefeRest = EX_JEFE; exPregunta(exNivelSala(3)); }
-    else { X.camino = i === 1 ? 'dragon' : 'seguro'; exPregunta(exNivelSala(i === 1 ? 2 : 0)); }
+  // entra en la sala actual: las salas 1-9 plantean su pregunta directamente; la 10 muestra primero a Lord Negativo
+  function exEntrar() {
+    if (X.sala === EX_SALAS) { X.camino = 'jefe'; X.fase = 'puertas'; exPintar(); return; }
+    X.camino = 'sala'; exPregunta(exNivelSala(0));
     if (X.sala === 7) exMedalla('ex7');
-    Sonido.campana(); exPintar();
+    exPintar();
+  }
+  function exPuerta() {                                        // solo el combate final necesita un toque para empezar
+    if (!X || X.fase !== 'puertas' || X.sala !== EX_SALAS) return;
+    X.camino = 'jefe'; X.jefeRest = EX_JEFE; exPregunta(exNivelSala(3)); Sonido.campana(); exPintar();
   }
   function exMonedas() {
-    var m = X.camino === 'jefe' ? 5 : (X.camino === 'dragon' ? 3 : 1 + (X.reliquias.indexOf('iman') >= 0 ? 1 : 0));
+    var m = X.camino === 'jefe' ? 5 : 2 + (X.reliquias.indexOf('iman') >= 0 ? 1 : 0);
     if (X.reliquias.indexOf('doble') >= 0 && X.racha >= 3) m *= 2;
     return m;
   }
@@ -2535,7 +2543,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     if (X.vidas <= 0) { exFin(false); return; }
     if (X.camino === 'jefe') { X.jefeRest--; if (X.jefeRest > 0) { exPregunta(exNivelSala(3)); exPintar(); } else exFin(true); return; }
     if (X.sala === 3 || X.sala === 6) { exOfrecer(); return; }
-    X.sala++; X.fase = 'puertas'; exPintar();
+    X.sala++; exEntrar();
   }
   function exOfrecer() {
     var pool = Object.keys(EX_RELIQUIAS).filter(function (k) { return !((k === 'doble' || k === 'iman') && X.reliquias.indexOf(k) >= 0); }), op = [];
@@ -2547,7 +2555,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     var k = X.opciones[i]; if (!k) return;
     if (X.reliquias.indexOf(k) < 0) X.reliquias.push(k);
     if (k === 'escudo') X.escudos++; else if (k === 'reintento') X.reintentos++; else if (k === 'pista') X.pistas += 2; else if (k === 'corazon') { X.vidasMax++; X.vidas++; }
-    Sonido.nivel(); X.sala++; X.fase = 'puertas'; exPintar();
+    Sonido.nivel(); X.sala++; exEntrar();
   }
   function exPista() {
     if (!X || X.fase !== 'pregunta' || X.pistas <= 0 || X.q.pistaVista) return;
@@ -2606,7 +2614,7 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
     if (X.fase === 'inicio') {
       var hi = exHistorial();
       h = '<div class="ex-cab"><div class="ex-ic" aria-hidden="true">' + (VIS.heroe || '🧭') + '</div><h1 class="titulo">La Expedición</h1>' +
-        '<p class="sub">10 salas con dos puertas en cada una, reliquias y Lord Negativo al final. Cada acierto da monedas; cada fallo cuesta un corazón.</p></div>' +
+        '<p class="sub">10 salas seguidas, cada vez un poco más difíciles; dos cofres con reliquias por el camino y Lord Negativo al final. Cada acierto da monedas; cada fallo cuesta un corazón.</p></div>' +
         '<p class="ex-et"><b>¿Qué quieres practicar?</b></p><div class="ex-fila" role="group" aria-label="Tema">' + nomT.map(function (n, i) { return '<button type="button" class="opc' + (X.tema === i ? ' sel' : '') + '" data-a="tema" data-v="' + i + '" aria-pressed="' + (X.tema === i) + '">' + exEsc(i ? TEMA_ICONO[i] + ' ' + n : '🎲 ' + n) + '</button>'; }).join('') + '</div>' +
         '<p class="ex-et"><b>Tu nivel de partida:</b> <span class="ex-niv">' + X.base + '</span> <small>(' + (X.auto ? 'según tu nivel en los mundos' : 'elegido por ti') + ')</small></p>' +
         '<div class="ex-fila"><button type="button" class="btn suave" data-a="menos" aria-label="Bajar nivel de partida">− Más fácil</button><button type="button" class="btn suave" data-a="mas" aria-label="Subir nivel de partida">Más difícil +</button></div>' +
@@ -2614,14 +2622,10 @@ if (typeof module !== 'undefined') module.exports = { MENSAJES_ACIERTO: MENSAJES
         (hi.n ? '<p class="sub ex-et">Tus expediciones: <b>' + hi.n + '</b> · victorias <b>' + hi.vic + '</b> · mejor botín <b>' + v.mo + ' ' + hi.mejor + '</b> · sala más profunda <b>' + hi.sala + '</b></p>' : '') +
         '<div class="ex-fila"><button type="button" class="btn suave" data-a="mapa">← Volver al mapa</button></div>';
     } else if (X.fase === 'puertas') {
-      var jefe = X.sala === EX_SALAS;
-      h = exHud() + '<h2 class="ex-h2">' + exEsc(v.salas[X.sala]) + '</h2>' + (jefe ? '<p class="sub">Lord Negativo te espera: 3 cuentas seguidas, y cada fallo cuesta un corazón.</p>' : '<p class="sub">Elige una puerta.</p>') +
-        '<div class="ex-puertas">' + (jefe
-          ? '<button type="button" class="ex-puerta jefe" data-a="puerta" data-v="2"><span class="ic">👾</span><b>Enfrentarte a Lord Negativo</b><small>3 preguntas · nivel ' + exNivelSala(3) + ' · +5 ' + v.mo + ' por acierto</small></button>'
-          : '<button type="button" class="ex-puerta" data-a="puerta" data-v="0"><span class="ic">' + v.p1[0] + '</span><b>' + exEsc(v.p1[1]) + '</b><small>Nivel ' + exNivelSala(0) + ' · +' + (1 + (X.reliquias.indexOf('iman') >= 0 ? 1 : 0)) + ' ' + v.mo + '</small></button>' +
-            '<button type="button" class="ex-puerta fuego" data-a="puerta" data-v="1"><span class="ic">' + v.p2[0] + '</span><b>' + exEsc(v.p2[1]) + '</b><small>Nivel ' + exNivelSala(2) + ' · +3 ' + v.mo + '</small></button>') + '</div>';
+      h = exHud() + '<div class="ex-jefe"><div class="ex-ic" aria-hidden="true">👾</div><h2 class="ex-h2">' + exEsc(v.salas[X.sala]) + '</h2><p class="sub">Lord Negativo te espera: 3 cuentas seguidas, cada fallo cuesta un corazón y cada acierto da +5 ' + v.mo + '.</p>' +
+        '<div class="ex-fila"><button type="button" class="btn verde ex-grande" data-a="puerta" data-v="2">⚔️ Enfrentarte a Lord Negativo</button></div></div>';
     } else if (X.fase === 'pregunta' || X.fase === 'resuelta') {
-      var q = X.q, res = X.ultimo, et = X.camino === 'jefe' ? '👾 Jefe · pregunta ' + (EX_JEFE - X.jefeRest + 1) + ' de ' + EX_JEFE : (X.camino === 'dragon' ? v.p2[0] + ' ' + v.p2[1] : v.p1[0] + ' ' + v.p1[1]);
+      var q = X.q, res = X.ultimo, et = X.camino === 'jefe' ? '👾 Jefe · pregunta ' + (EX_JEFE - X.jefeRest + 1) + ' de ' + EX_JEFE : '🚪 ' + v.salas[X.sala];
       h = exHud() + '<div class="ex-tarjeta' + (res && res.ok === false && !res.reintento ? ' tiembla' : (res && res.ok ? ' brilla' : '')) + '"><span class="ex-tag">' + exEsc(et) + ' · nivel ' + q.nivelUsado + '</span><div class="ex-expr" aria-label="Operación">' + q.html + '</div>' +
         '<div class="ex-resp' + (X.buf ? '' : ' vacia') + '" id="ex-resp" aria-live="polite">' + (X.buf ? exEsc(X.buf.replace('-', M)) : '?') + '</div></div>';
       if (X.fase === 'pregunta') {
